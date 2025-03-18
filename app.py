@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
-import joblib
 import base64
 from tensorflow.keras.models import load_model
 from tensorflow.keras.layers import LeakyReLU
@@ -35,9 +34,12 @@ set_background_image_local("BGIMG.avif")
 def load_lstm_model():
     return load_model('trained_model.h5', custom_objects={"LeakyReLU": LeakyReLU()})
 
+
 @st.cache_resource
 def load_scaler():
-    return joblib.load('scaler.pkl')
+    with open('scaler.pkl', 'rb') as file:
+        return pickle.load(file)
+
 
 @st.cache_resource
 def load_label_encoders():
